@@ -20,7 +20,7 @@ class ReflectSubplugin : KotlinGradleSubplugin<AbstractCompile> {
 	}
 	
 	override fun getPluginArtifact(): SubpluginArtifact {
-		return SubpluginArtifact("ru.capjack.ktjs", "ktjs-reflect-gradle", ReflectPlugin.VERSION)
+		return SubpluginArtifact("ru.capjack.gradle", "gradle-ktjs-reflect", ReflectPlugin.VERSION)
 	}
 	
 	override fun apply(
@@ -49,6 +49,6 @@ class ReflectSubplugin : KotlinGradleSubplugin<AbstractCompile> {
 		get() = target.name.toLowerCase()
 	
 	private val ReflectConfiguration.optionValue: String
-		get() = name + if (parts.isEmpty()) "" else parts.joinToString(";", "|") { it.name }
+		get() = name + if (kinds.isEmpty()) "" else kinds.joinToString(";", "|") { it.name }
 	
 }

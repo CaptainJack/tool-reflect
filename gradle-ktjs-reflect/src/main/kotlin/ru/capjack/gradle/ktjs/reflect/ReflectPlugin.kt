@@ -21,7 +21,7 @@ open class ReflectPlugin : Plugin<Project> {
 		project.configurations.all { configuration ->
 			configuration.resolutionStrategy.eachDependency { details ->
 				val requested = details.requested
-				if (requested.group == "ru.capjack.ktjs" && requested.name == "ktjs-reflect" && requested.version.isEmpty()) {
+				if (requested.group == "ru.capjack.lib" && requested.name == "lib-ktjs-reflect" && requested.version.isEmpty()) {
 					details.useVersion(VERSION)
 				}
 			}

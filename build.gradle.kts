@@ -1,23 +1,28 @@
-import ru.capjack.gradle.capjackPublish.CapjackPublishExtension
-import ru.capjack.gradle.capjackPublish.CapjackPublishPlugin
+import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
+
+group = "ru.capjack.lib"
 
 plugins {
-	kotlin("jvm") version "1.2.60" apply false
+	id("kotlin2js") version "1.2.60"
 	id("nebula.release") version "6.3.5"
-	id("ru.capjack.kotlin-sources-jar") version "0.3.0" apply false
-	id("ru.capjack.capjack-publish") version "0.5.0" apply false
+	id("ru.capjack.kotlin-sources-jar") version "0.3.0"
+	id("ru.capjack.capjack-publish") version "0.6.0"
 }
 
-subprojects {
-	group = "ru.capjack.lib"
-	
+allprojects {
 	repositories {
 		jcenter()
 	}
-	
-	plugins.withType<CapjackPublishPlugin> {
-		configure<CapjackPublishExtension> {
-			githubRepository = "kt-logging"
-		}
+}
+
+dependencies {
+	implementation(kotlin("stdlib-js"))
+}
+
+tasks.withType<Kotlin2JsCompile> {
+	kotlinOptions {
+		moduleKind = "amd"
+		sourceMap = true
+		sourceMapEmbedSources = "always"
 	}
 }

@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+group = "ru.capjack.gradle"
+
 plugins {
 	kotlin("jvm")
 	id("ru.capjack.kotlin-sources-jar")
@@ -16,6 +18,10 @@ dependencies {
 JavaVersion.VERSION_1_8.also {
 	configure<JavaPluginConvention> { sourceCompatibility = it }
 	tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = it.toString() }
+}
+
+capjackPublish {
+	githubRepository = "lib-ktjs-reflect"
 }
 
 gradlePlugin {

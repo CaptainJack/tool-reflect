@@ -26,7 +26,7 @@ class ReflectJsSyntheticTranslateExtension(
 	
 	override fun generateClassSyntheticParts(declaration: KtPureClassOrObject, descriptor: ClassDescriptor, translator: DeclarationBodyVisitor, context: TranslationContext) {
 		var reflect = false
-		val parts = mutableSetOf<ReflectConfiguration.Part>()
+		val parts = mutableSetOf<ReflectKind>()
 		for (configuration in configurations) {
 			reflect = collectParts(parts, configuration, descriptor) || reflect
 		}
@@ -42,9 +42,9 @@ class ReflectJsSyntheticTranslateExtension(
 			
 			parts.forEach { p ->
 				when (p) {
-					ReflectConfiguration.Part.CONSTRUCTOR ->
+					ReflectKind.CONSTRUCTOR ->
 						metadata.add(jsProperty("constructor", generateConstructor(descriptor, context)))
-					ReflectConfiguration.Part.METHODS     ->
+					ReflectKind.METHODS     ->
 						metadata.add(
 							jsProperty(
 								"methods",
@@ -74,9 +74,9 @@ class ReflectJsSyntheticTranslateExtension(
 		}
 	}
 	
-	private fun collectParts(parts: MutableCollection<ReflectConfiguration.Part>, configuration: ReflectConfiguration, descriptor: ClassDescriptor): Boolean {
+	private fun collectParts(kinds: MutableCollection<ReflectKind>, configuration: ReflectConfiguration, descriptor: ClassDescriptor): Boolean {
 		return if (matchConfiguration(configuration, descriptor)) {
-			parts.addAll(configuration.parts)
+			kinds.addAll(configuration.kinds)
 			true
 		}
 		else false

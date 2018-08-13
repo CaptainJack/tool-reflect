@@ -39,7 +39,7 @@ class CommandLineProcessor : CommandLineProcessor {
 					ReflectConfigurationImpl(
 						option.target,
 						name,
-						parts.map { ReflectConfiguration.Part.valueOf(it.toUpperCase()) })
+						parts.map { ReflectKind.valueOf(it.toUpperCase()) })
 				)
 			}
 		}

@@ -1,27 +1,28 @@
 package ru.capjack.gradle.ktjs.reflect
 
+import ru.capjack.gradle.ktjs.reflect.compiler.ReflectKind
 import ru.capjack.gradle.ktjs.reflect.compiler.ReflectConfiguration
 import ru.capjack.gradle.ktjs.reflect.compiler.ReflectConfigurationImpl
 
 open class ReflectExtensionImpl : ReflectExtension {
 	override val configurations: MutableList<ReflectConfiguration> = mutableListOf()
 	
-	override fun withClass(name: String, vararg parts: ReflectConfiguration.Part) {
+	override fun withClass(name: String, vararg kinds: ReflectKind) {
 		configurations.add(
 			ReflectConfigurationImpl(
 				ReflectConfiguration.Target.CLASS,
 				name,
-				parts.toList()
+				kinds.toList()
 			)
 		)
 	}
 	
-	override fun withAnnotation(name: String, vararg parts: ReflectConfiguration.Part) {
+	override fun withAnnotation(name: String, vararg kinds: ReflectKind) {
 		configurations.add(
 			ReflectConfigurationImpl(
 				ReflectConfiguration.Target.ANNOTATION,
 				name,
-				parts.toList()
+				kinds.toList()
 			)
 		)
 	}
