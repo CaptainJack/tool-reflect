@@ -7,6 +7,7 @@ plugins {
 	id("ru.capjack.kotlin-sources-jar")
 	id("ru.capjack.capjack-publish")
 	`java-gradle-plugin`
+	id("com.gradle.plugin-publish") version "0.10.0"
 }
 
 dependencies {
@@ -32,6 +33,17 @@ gradlePlugin {
 		}
 	}
 }
+
+pluginBundle {
+	vcsUrl = "https://github.com/CaptainJack/lib-ktjs-reflect"
+	website = vcsUrl
+	description = "Kotlin compiler plugin for support lib-ktjs-reflect library"
+	tags = listOf("capjack")
+	
+	plugins["KtjsReflect"].displayName = "KtjsReflect plugin"
+}
+
+parent!!.tasks.getByName("postRelease").dependsOn("publishPlugins")
 
 tasks.withType<ProcessResources> {
 	inputs.property("version", version.toString())
