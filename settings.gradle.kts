@@ -1,9 +1,6 @@
-include("gradle-ktjs-reflect")
+include(
+	"ktjs-reflect",
+	"ktjs-reflect-gradle"
+)
 
 enableFeaturePreview("STABLE_PUBLISHING")
-
-pluginManagement.resolutionStrategy.eachPlugin {
-	if (requested.id.id == "kotlin2js") {
-		useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
-	}
-}
