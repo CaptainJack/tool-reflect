@@ -1,6 +1,6 @@
 include(
-	"ktjs-reflect",
-	"ktjs-reflect-gradle"
+	"kt-reflect-common",
+	"kt-reflect-js",
+	"kt-reflect-js-gradle",
+	"kt-reflect-jvm"
 )
-
-enableFeaturePreview("STABLE_PUBLISHING")
