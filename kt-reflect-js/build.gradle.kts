@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
-import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 
 plugins {
 	kotlin("platform.js")
@@ -16,7 +15,7 @@ dependencies {
 	testImplementation(kotlin("test-js"))
 }
 
-tasks.withType<Kotlin2JsCompile> {
+tasks.withType<KotlinJsCompile> {
 	kotlinOptions {
 		moduleKind = "umd"
 		sourceMap = true

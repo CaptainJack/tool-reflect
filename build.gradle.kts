@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
 	kotlin("jvm") version "1.2.60" apply false
 	id("io.freefair.sources-jar") version "2.5.11" apply false
