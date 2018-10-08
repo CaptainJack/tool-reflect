@@ -19,12 +19,12 @@ class CommandLineProcessor : CommandLineProcessor {
 	
 	private val targetOptions = ReflectTarget.Type.values().map {
 		val name = it.name.toLowerCase()
-		CliOption(name, "<name>[,<unit>]*", "Reflect target with $name", false, true)
+		CliOption(name, "<name>[:<unit>]*", "Reflect target with $name", false, true)
 	}
 	
 	override fun processOption(option: CliOption, value: String, configuration: CompilerConfiguration) {
 		if (option in targetOptions) {
-			val s = value.split(',')
+			val s = value.split(':')
 			val target = ReflectTargetImpl(
 				s[0],
 				ReflectTarget.Type.valueOf(option.name.toUpperCase()),

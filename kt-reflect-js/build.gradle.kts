@@ -32,6 +32,12 @@ tasks.getByName<KotlinJsCompile>("compileTestKotlin2Js") {
 		"-Xplugin=${pluginJar.archivePath.absolutePath}",
 		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubClassA",
 		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubClassB",
-		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubInterfaceA"
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubInterfaceA",
+		
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubReflectName*",
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubReflectA:ANNOTATIONS",
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubReflectB:SUPERTYPES",
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubReflectC:CONSTRUCTOR",
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubReflectD:MEMBERS"
 	)
 }
