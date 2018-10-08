@@ -51,6 +51,6 @@ class ReflectSubplugin : KotlinGradleSubplugin<AbstractCompile> {
 		get() = type.name.toLowerCase()
 	
 	private val ReflectTarget.optionValue: String
-		get() = listOf(name).asSequence().plus(units.map { it.name.toLowerCase() }).joinToString(",")
+		get() = listOf(name).asSequence().plus(units.map { it.name.toLowerCase() }).joinToString(":")
 	
 }
