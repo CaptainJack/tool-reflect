@@ -16,10 +16,7 @@ open class ReflectPlugin : Plugin<Project> {
 	
 	override fun apply(project: Project) {
 		configureDefaultVersionsResolutionStrategy(project)
-		
-		if (isEnabled(project)) {
-			project.extensions.create(ReflectExtension::class, "ktReflect", ReflectExtensionImpl::class)
-		}
+		project.extensions.create(ReflectExtension::class, "ktReflect", ReflectExtensionImpl::class)
 	}
 	
 	private fun configureDefaultVersionsResolutionStrategy(project: Project) {

@@ -3,7 +3,7 @@ package ru.capjack.lib.kt.reflect.js.gradle.internal
 import ru.capjack.lib.kt.reflect.js.gradle.ReflectExtension
 import ru.capjack.lib.kt.reflect.js.gradle.ReflectTarget
 
-internal class ReflectExtensionImpl : ReflectExtension {
+internal open class ReflectExtensionImpl : ReflectExtension {
 	override val targets = mutableListOf<ReflectTarget>()
 	
 	override fun withClass(name: String, vararg units: ReflectTarget.Unit) {

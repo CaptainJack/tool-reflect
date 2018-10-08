@@ -40,4 +40,26 @@ internal abstract class KCallableRef<out R>(
 	}
 	
 	abstract fun doCall(args: Array<*>): R
+	
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (other !is KCallableRef<*>) return false
+		if (!super.equals(other)) return false
+		
+		if (name != other.name) return false
+		if (returnType != other.returnType) return false
+		if (accessName != other.accessName) return false
+		if (valueParameters != other.valueParameters) return false
+		
+		return true
+	}
+	
+	override fun hashCode(): Int {
+		var result = super.hashCode()
+		result = 31 * result + name.hashCode()
+		result = 31 * result + returnType.hashCode()
+		result = 31 * result + accessName.hashCode()
+		result = 31 * result + valueParameters.hashCode()
+		return result
+	}
 }

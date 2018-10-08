@@ -18,4 +18,24 @@ internal class KParameterRef(
 	
 	override val kind: KParameter.Kind
 		get() = throwNotImplemented()
+	
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (other !is KParameterRef) return false
+		if (!super.equals(other)) return false
+		
+		if (index != other.index) return false
+		if (name != other.name) return false
+		if (type != other.type) return false
+		
+		return true
+	}
+	
+	override fun hashCode(): Int {
+		var result = super.hashCode()
+		result = 31 * result + index
+		result = 31 * result + (name?.hashCode() ?: 0)
+		result = 31 * result + type.hashCode()
+		return result
+	}
 }

@@ -156,7 +156,11 @@ class ReflectCodeGenerator(
 				
 				JsNew(
 					context.getInnerReference(clazz),
-					parameters.map { annotation.argumentValue(it.name.asString())!!.accept(ANNOTATION_ARGUMENT_VISITOR, context) }
+					parameters.map { d ->
+						annotation.argumentValue(d.name.asString())
+							?.accept(ANNOTATION_ARGUMENT_VISITOR, context)
+							?: Namer.getUndefinedExpression()
+					}
 				)
 			}
 		)

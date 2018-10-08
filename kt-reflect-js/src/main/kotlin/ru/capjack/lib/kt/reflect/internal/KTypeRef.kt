@@ -17,4 +17,20 @@ internal class KTypeRef(
 	
 	override val isMarkedNullable: Boolean
 		get() = throwNotImplemented()
+	
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (other !is KTypeRef) return false
+		if (!super.equals(other)) return false
+		
+		if (kClass != other.kClass) return false
+		
+		return true
+	}
+	
+	override fun hashCode(): Int {
+		var result = super.hashCode()
+		result = 31 * result + kClass.hashCode()
+		return result
+	}
 }

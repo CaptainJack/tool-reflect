@@ -39,8 +39,8 @@ object Reflections {
 	}
 	
 	@JsName("b")
-	internal fun <T : Any> createJsConstructor(jsClass: JsClass<T>, valueParameters: List<KParameterRef>, creator: dynamic): JsConstructor<T> {
-		return JsConstructor("<init>", createKTypeRef(jsClass, emptyArray()), valueParameters, emptyList(), creator)
+	internal fun <T : Any> createJsConstructor(jsClass: JsClass<T>, valueParameters: Array<KParameterRef>, creator: dynamic): JsConstructor<T> {
+		return JsConstructor("<init>", createKTypeRef(jsClass, emptyArray()), valueParameters.toList(), emptyList(), creator)
 	}
 	
 	@JsName("c")
@@ -49,8 +49,8 @@ object Reflections {
 	}
 	
 	@JsName("d")
-	internal fun createKParameterRef(index: Int, name: String, type: KTypeRef, annotations: List<Annotation>): KParameterRef {
-		return KParameterRef(index, name, type, annotations)
+	internal fun createKParameterRef(index: Int, name: String, type: KTypeRef, annotations: Array<Annotation>): KParameterRef {
+		return KParameterRef(index + 1, name, type, annotations.toList())
 	}
 	
 	@JsName("e")
