@@ -6,7 +6,7 @@ plugins {
 }
 
 subprojects {
-	group = "ru.capjack.lib.kt.reflect"
+	group = "ru.capjack.kt.reflect"
 	
 	repositories {
 		jcenter()

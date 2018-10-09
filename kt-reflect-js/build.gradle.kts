@@ -30,14 +30,14 @@ tasks.getByName<KotlinJsCompile>("compileTestKotlin2Js") {
 	dependsOn(pluginJar)
 	kotlinOptions.freeCompilerArgs += listOf(
 		"-Xplugin=${pluginJar.archivePath.absolutePath}",
-		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubClassA",
-		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubClassB",
-		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubInterfaceA",
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubClassA",
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubClassB",
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubInterfaceA",
 		
-		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubReflectName*",
-		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubReflectA:ANNOTATIONS",
-		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubReflectB:SUPERTYPES",
-		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubReflectC:CONSTRUCTOR",
-		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.lib.kt.reflect.StubReflectD:MEMBERS"
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubReflectName*",
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubReflectA:ANNOTATIONS",
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubReflectB:SUPERTYPES",
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubReflectC:CONSTRUCTOR",
+		"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubReflectD:MEMBERS"
 	)
 }

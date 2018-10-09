@@ -16,14 +16,14 @@ dependencies {
 
 gradlePlugin {
 	plugins.create("KtReflectJs") {
-		id = "ru.capjack.lib.kt-reflect-js"
-		implementationClass = "ru.capjack.lib.kt.reflect.js.gradle.ReflectPlugin"
+		id = "ru.capjack.kt-reflect-js"
+		implementationClass = "ru.capjack.kt.reflect.js.gradle.ReflectPlugin"
 		displayName = "Lib KtReflectJs"
 	}
 }
 
 pluginBundle {
-	vcsUrl = "https://github.com/CaptainJack/lib-kt-reflect"
+	vcsUrl = "https://github.com/CaptainJack/kt-reflect"
 	website = vcsUrl
 	description = "Kotlin compiler plugin for support kt-reflect-js library"
 	tags = listOf("kotlin", "javascript", "reflection")
