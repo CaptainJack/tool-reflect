@@ -1,9 +1,9 @@
 package ru.capjack.kt.reflect.js.gradle
 
 import org.gradle.api.Project
-import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.compile.AbstractCompile
 import org.gradle.kotlin.dsl.findByType
+import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinGradleSubplugin
 import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
@@ -25,10 +25,10 @@ class ReflectSubplugin : KotlinGradleSubplugin<AbstractCompile> {
 	override fun apply(
 		project: Project,
 		kotlinCompile: AbstractCompile,
-		javaCompile: AbstractCompile,
+		javaCompile: AbstractCompile?,
 		variantData: Any?,
 		androidProjectHandler: Any?,
-		javaSourceSet: SourceSet?
+		kotlinCompilation: KotlinCompilation?
 	): List<SubpluginOption> {
 		
 		if (!ReflectPlugin.isEnabled(project)) {

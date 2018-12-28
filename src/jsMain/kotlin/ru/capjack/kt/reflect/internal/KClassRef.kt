@@ -67,6 +67,9 @@ internal class KClassRef<T : Any>(
 	override val visibility: KVisibility?
 		get() = throwNotImplemented()
 	
+	override val sealedSubclasses: List<KClass<out T>>
+		get() = throwNotImplemented()
+	
 	override fun isInstance(value: Any?): Boolean {
 		return kClass.isInstance((value as? KClassRef<*>)?.kClass ?: value)
 	}
