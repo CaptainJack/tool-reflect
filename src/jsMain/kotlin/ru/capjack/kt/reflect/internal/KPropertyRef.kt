@@ -16,6 +16,9 @@ internal class KPropertyRef<out R>(
 	override val isConst: Boolean
 		get() = throwNotImplemented()
 	
+	override val isSuspend: Boolean
+		get() = throwNotImplemented()
+	
 	override val getter: KProperty.Getter<R>
 		get() = throwNotImplemented()
 	

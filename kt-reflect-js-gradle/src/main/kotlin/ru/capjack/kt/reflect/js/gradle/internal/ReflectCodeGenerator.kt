@@ -8,7 +8,8 @@ import org.jetbrains.kotlin.descriptors.FunctionDescriptor
 import org.jetbrains.kotlin.descriptors.PropertyDescriptor
 import org.jetbrains.kotlin.descriptors.ValueParameterDescriptor
 import org.jetbrains.kotlin.descriptors.annotations.Annotations
-import org.jetbrains.kotlin.ir.backend.js.utils.getClassifier
+import org.jetbrains.kotlin.descriptors.resolveClassByFqName
+import org.jetbrains.kotlin.incremental.components.NoLookupLocation
 import org.jetbrains.kotlin.js.backend.ast.*
 import org.jetbrains.kotlin.js.translate.context.Namer
 import org.jetbrains.kotlin.js.translate.context.TranslationContext
@@ -31,7 +32,7 @@ class ReflectCodeGenerator(
 	private val context: TranslationContext
 ) {
 	
-	private val factory = getReference(context.currentModule.getClassifier(FqName("ru.capjack.kt.reflect.Reflections"))!!)
+	private val factory = getReference(context.currentModule.resolveClassByFqName(FqName("ru.capjack.kt.reflect.Reflections"), NoLookupLocation.FROM_BACKEND)!!)
 	
 	init {
 		context.addTopLevelStatement(

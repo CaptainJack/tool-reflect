@@ -17,6 +17,6 @@ class TestKAnnotatedElementExt {
 	fun findAnnotation_not_null_and_valid() {
 		val annotation = StubClassB::class.findAnnotation(StubAnnotationA::class)
 		assertNotNull(annotation)
-		assertEquals("bbb", annotation!!.param)
+		assertEquals("bbb", annotation.param)
 	}
 }
