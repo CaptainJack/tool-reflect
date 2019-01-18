@@ -6,7 +6,7 @@ plugins {
 	kotlin("multiplatform") version "1.3.11"
 	id("ru.capjack.ktjs-test") version "0.8.0"
 	id("nebula.release") version "9.2.0"
-	id("ru.capjack.capjack-bintray") version "0.13.0"
+	id("ru.capjack.capjack-bintray") version "0.14.1"
 }
 
 
@@ -15,6 +15,10 @@ allprojects {
 	repositories {
 		jcenter()
 	}
+}
+
+capjackBintray {
+	publications("*", "kt-reflect-js-gradle")
 }
 
 afterEvaluate {

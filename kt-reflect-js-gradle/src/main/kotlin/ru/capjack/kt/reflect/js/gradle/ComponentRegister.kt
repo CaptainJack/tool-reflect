@@ -1,7 +1,6 @@
 package ru.capjack.kt.reflect.js.gradle
 
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.com.intellij.mock.MockProject
 import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
@@ -23,8 +22,4 @@ class ComponentRegister : ComponentRegistrar {
 	companion object {
 		lateinit var messenger: MessageCollector
 	}
-}
-
-fun log(vararg a: Any?) {
-	ComponentRegister.messenger.report(CompilerMessageSeverity.ERROR, System.nanoTime().toString() + " " + a.joinToString(" "))
 }
