@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
 	`kotlin-dsl`
 	`java-gradle-plugin`
@@ -13,18 +11,18 @@ dependencies {
 }
 
 gradlePlugin {
-	plugins.create("KtReflectJs") {
-		id = "ru.capjack.kt-reflect-js"
-		implementationClass = "ru.capjack.kt.reflect.js.gradle.ReflectPlugin"
-		displayName = "Lib KtReflectJs"
+	plugins.create("KtReflect") {
+		id = "ru.capjack.kt-reflect"
+		implementationClass = "ru.capjack.kt.reflect.gradle.ReflectPlugin"
+		displayName = "kt-reflect"
 	}
 }
 
 pluginBundle {
 	vcsUrl = "https://github.com/CaptainJack/kt-reflect"
 	website = vcsUrl
-	description = "Kotlin compiler plugin for support kt-reflect-js library"
-	tags = listOf("kotlin", "javascript", "reflection")
+	description = "Plugin for support kt-reflect library"
+	tags = listOf("capjack", "kotlin", "reflection")
 }
 
 rootProject.tasks["postRelease"].dependsOn(tasks["publishPlugins"])

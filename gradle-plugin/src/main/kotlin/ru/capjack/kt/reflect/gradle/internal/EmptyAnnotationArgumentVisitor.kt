@@ -1,4 +1,4 @@
-package ru.capjack.kt.reflect.js.gradle.internal
+package ru.capjack.kt.reflect.gradle.internal
 
 import org.jetbrains.kotlin.descriptors.annotations.AnnotationArgumentVisitor
 import org.jetbrains.kotlin.resolve.constants.*

@@ -1,4 +1,4 @@
-package ru.capjack.kt.reflect.js.gradle.internal
+package ru.capjack.kt.reflect.gradle.internal
 
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns.isAnyOrNullableAny
 import org.jetbrains.kotlin.descriptors.CallableMemberDescriptor
@@ -24,10 +24,10 @@ import org.jetbrains.kotlin.resolve.constants.*
 import org.jetbrains.kotlin.resolve.descriptorUtil.annotationClass
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.types.KotlinType
-import ru.capjack.kt.reflect.js.gradle.ReflectTarget
+import ru.capjack.kt.reflect.gradle.JsReflectTarget
 
-class ReflectCodeGenerator(
-	units: Set<ReflectTarget.Unit>,
+class JsReflectCodeGenerator(
+	units: Set<JsReflectTarget.Unit>,
 	descriptor: ClassDescriptor,
 	private val context: TranslationContext
 ) {
@@ -40,10 +40,10 @@ class ReflectCodeGenerator(
 				"reflectClass",
 				getReference(descriptor),
 				JsStringLiteral(descriptor.fqNameSafe.parent().asString()),
-				if (units.contains(ReflectTarget.Unit.SUPERTYPES)) extractSupertypes(descriptor) else JsArrayLiteral(),
-				if (units.contains(ReflectTarget.Unit.CONSTRUCTOR)) makeJsConstructor(descriptor) else JsNullLiteral(),
-				if (units.contains(ReflectTarget.Unit.MEMBERS)) extractMembers(descriptor) else JsArrayLiteral(),
-				if (units.contains(ReflectTarget.Unit.ANNOTATIONS)) extractAnnotations(descriptor) else JsArrayLiteral()
+				if (units.contains(JsReflectTarget.Unit.SUPERTYPES)) extractSupertypes(descriptor) else JsArrayLiteral(),
+				if (units.contains(JsReflectTarget.Unit.CONSTRUCTOR)) makeJsConstructor(descriptor) else JsNullLiteral(),
+				if (units.contains(JsReflectTarget.Unit.MEMBERS)) extractMembers(descriptor) else JsArrayLiteral(),
+				if (units.contains(JsReflectTarget.Unit.ANNOTATIONS)) extractAnnotations(descriptor) else JsArrayLiteral()
 			).makeStmt()
 		)
 		
@@ -235,7 +235,7 @@ class ReflectCodeGenerator(
 				JsArrayLiteral(value.value.map { it.accept(this, data) })
 			
 			override fun visitKClassValue(value: KClassValue, data: TranslationContext) =
-				JsInvocation(data.getReferenceToIntrinsic(Namer.GET_KCLASS), getReferenceToJsClass(value.value, data))
+				JsInvocation(data.getReferenceToIntrinsic(Namer.GET_KCLASS), getReferenceToJsClass(value.getType(data.currentModule), data))
 		}
 	}
 }

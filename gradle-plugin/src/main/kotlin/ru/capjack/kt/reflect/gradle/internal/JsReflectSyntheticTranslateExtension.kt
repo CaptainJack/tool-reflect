@@ -1,4 +1,4 @@
-package ru.capjack.kt.reflect.js.gradle.internal
+package ru.capjack.kt.reflect.gradle.internal
 
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.js.translate.context.TranslationContext
@@ -8,9 +8,9 @@ import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtPureClassOrObject
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.utils.ifEmpty
-import ru.capjack.kt.reflect.js.gradle.ReflectTarget
+import ru.capjack.kt.reflect.gradle.JsReflectTarget
 
-internal class ReflectJsSyntheticTranslateExtension(private val configuration: ReflectConfiguration) : JsSyntheticTranslateExtension {
+internal class JsReflectSyntheticTranslateExtension(private val configuration: JsReflectConfiguration) : JsSyntheticTranslateExtension {
 	
 	override fun generateClassSyntheticParts(declaration: KtPureClassOrObject, descriptor: ClassDescriptor, translator: DeclarationBodyVisitor, context: TranslationContext) {
 		val units = defineReflectUnits(descriptor)
@@ -19,20 +19,20 @@ internal class ReflectJsSyntheticTranslateExtension(private val configuration: R
 			return
 		}
 		
-		ReflectCodeGenerator(units, descriptor, context)
+		JsReflectCodeGenerator(units, descriptor, context)
 	}
 	
-	private fun defineReflectUnits(descriptor: ClassDescriptor): Set<ReflectTarget.Unit> {
+	private fun defineReflectUnits(descriptor: ClassDescriptor): Set<JsReflectTarget.Unit> {
 		return configuration.targets
 			.filter { matchReflectTarget(it, descriptor) }
-			.flatMap { it.units.ifEmpty { ReflectTarget.Unit.values().toList() } }
+			.flatMap { it.units.ifEmpty { JsReflectTarget.Unit.values().toList() } }
 			.toSet()
 	}
 	
-	private fun matchReflectTarget(target: ReflectTarget, descriptor: ClassDescriptor): Boolean {
+	private fun matchReflectTarget(target: JsReflectTarget, descriptor: ClassDescriptor): Boolean {
 		return when (target.type) {
-			ReflectTarget.Type.CLASS      -> matchReflectTargetName(descriptor.fqNameSafe, target.name)
-			ReflectTarget.Type.ANNOTATION -> descriptor.annotations.any { matchReflectTargetName(it.fqName!!, target.name) }
+			JsReflectTarget.Type.CLASS      -> matchReflectTargetName(descriptor.fqNameSafe, target.name)
+			JsReflectTarget.Type.ANNOTATION -> descriptor.annotations.any { matchReflectTargetName(it.fqName!!, target.name) }
 		}
 	}
 	

@@ -1,6 +1,6 @@
-package ru.capjack.kt.reflect.js.gradle
+package ru.capjack.kt.reflect.gradle
 
-interface ReflectTarget {
+interface JsReflectTarget {
 	val type: Type
 	val name: String
 	val units: Set<Unit>

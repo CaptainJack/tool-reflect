@@ -1,104 +1,96 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
-import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
+import org.jetbrains.kotlin.cli.common.arguments.K2JsArgumentConstants.MODULE_UMD
+import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation.Companion.MAIN_COMPILATION_NAME
+import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation.Companion.TEST_COMPILATION_NAME
 
 plugins {
-	kotlin("multiplatform") version "1.3.11"
-	id("ru.capjack.ktjs-test") version "0.8.0"
+	kotlin("multiplatform") version "1.3.20"
 	id("nebula.release") version "9.2.0"
-	id("ru.capjack.capjack-bintray") version "0.14.1"
+	id("ru.capjack.ktjs-test") version "0.10.0"
+	id("ru.capjack.capjack-bintray") version "0.16.0"
 }
 
 
 allprojects {
-	group = "ru.capjack.kt.reflect"
+	group = "ru.capjack.kt"
 	repositories {
 		jcenter()
 	}
 }
 
 capjackBintray {
-	publications("*", "kt-reflect-js-gradle")
-}
-
-afterEvaluate {
-	// https://youtrack.jetbrains.com/issue/KT-29058
-	publishing.publications.forEach { (it as MavenPublication).groupId = group.toString() }
+	publications(":", ":kt-reflect-gradle")
 }
 
 kotlin {
-	targets {
-		add(presets["jvm"].createTarget("jvm").apply {
-			compilations.all {
-				tasks.getByName<KotlinJvmCompile>(compileKotlinTaskName).kotlinOptions.jvmTarget = "1.8"
-			}
-		})
-		
-		add(presets["js"].createTarget("js").apply {
-			compilations.all {
-				tasks.getByName<KotlinJsCompile>(compileKotlinTaskName).kotlinOptions {
-					sourceMap = true
-					sourceMapEmbedSources = "always"
-					moduleKind = "umd"
-				}
-			}
-			compilations.getByName(KotlinCompilation.TEST_COMPILATION_NAME) {
-				tasks.getByName<KotlinJsCompile>(compileKotlinTaskName) {
-					val plugin = ":kt-reflect-js-gradle"
-					evaluationDependsOn(plugin)
-					val jar = project(plugin).tasks.getByName<Jar>("jar")
-					dependsOn(jar)
-					kotlinOptions.freeCompilerArgs += listOf(
-						"-Xplugin=${jar.archiveFile.get().asFile.absolutePath}",
-						"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubClassA",
-						"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubClassB",
-						"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubInterfaceA",
-						
-						"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubReflectName*",
-						"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubReflectA:ANNOTATIONS",
-						"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubReflectB:SUPERTYPES",
-						"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubReflectC:CONSTRUCTOR",
-						"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.kt.reflect.StubReflectD:MEMBERS"
-					)
-				}
-			}
-		})
-	}
-	
 	sourceSets {
 		commonMain {
 			dependencies {
-				implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+				implementation(kotlin("stdlib-common"))
 			}
 		}
 		commonTest {
 			dependencies {
-				implementation("org.jetbrains.kotlin:kotlin-test-common")
-				implementation("org.jetbrains.kotlin:kotlin-test-annotations-common")
+				implementation(kotlin("test-common"))
+				implementation(kotlin("test-annotations-common"))
+			}
+		}
+	}
+	
+	
+	jvm().compilations {
+		all {
+			kotlinOptions.jvmTarget = "1.8"
+		}
+		
+		get(MAIN_COMPILATION_NAME).defaultSourceSet {
+			dependencies {
+				implementation(kotlin("stdlib-jdk8"))
+				implementation(kotlin("reflect"))
 			}
 		}
 		
-		named("jvmMain") {
+		get(TEST_COMPILATION_NAME).defaultSourceSet {
 			dependencies {
-				implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-				implementation("org.jetbrains.kotlin:kotlin-reflect")
+				implementation(kotlin("test-junit"))
 			}
 		}
-		named("jvmTest") {
+	}
+	
+	js().compilations {
+		all {
+			kotlinOptions.moduleKind = MODULE_UMD
+		}
+		
+		get(MAIN_COMPILATION_NAME).defaultSourceSet {
 			dependencies {
-				implementation("org.jetbrains.kotlin:kotlin-test-junit")
+				implementation(kotlin("stdlib-js"))
 			}
 		}
 		
-		named("jsMain") {
+		get(TEST_COMPILATION_NAME).defaultSourceSet {
 			dependencies {
-				implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
+				implementation(kotlin("test-js"))
 			}
 		}
-		named("jsTest") {
-			dependencies {
-				implementation("org.jetbrains.kotlin:kotlin-test-js")
-			}
+		
+		get(TEST_COMPILATION_NAME).compileKotlinTask.apply {
+			val plugin = ":kt-reflect-gradle"
+			evaluationDependsOn(plugin)
+			val jar = project(plugin).tasks.getByName<Jar>("jar")
+			dependsOn(jar)
+			kotlinOptions.freeCompilerArgs += listOf(
+				"-Xplugin=${jar.archiveFile.get().asFile.absolutePath}",
+				
+				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubClassA",
+				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubClassB",
+				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubInterfaceA",
+				
+				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubReflectName*",
+				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubReflectA:ANNOTATIONS",
+				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubReflectB:SUPERTYPES",
+				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubReflectC:CONSTRUCTOR",
+				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubReflectD:MEMBERS"
+			)
 		}
 	}
 }

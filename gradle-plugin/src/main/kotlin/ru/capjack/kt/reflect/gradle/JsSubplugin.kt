@@ -1,25 +1,33 @@
-package ru.capjack.kt.reflect.js.gradle
+package ru.capjack.kt.reflect.gradle
 
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.AbstractCompile
 import org.gradle.kotlin.dsl.findByType
+import org.jetbrains.kotlin.gradle.dsl.KotlinCommonOptions
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinGradleSubplugin
 import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
-class ReflectSubplugin : KotlinGradleSubplugin<AbstractCompile> {
+class JsSubplugin : KotlinGradleSubplugin<AbstractCompile> {
+	companion object {
+		const val COMPILER_PLUGIN_ID = "ru.capjack.kt-reflect"
+	}
 	
 	override fun isApplicable(project: Project, task: AbstractCompile): Boolean {
-		return ReflectPlugin.isEnabled(project)
+		return ReflectPlugin.isJsApplicable(project)
 	}
 	
 	override fun getCompilerPluginId(): String {
-		return Const.PLUGIN
+		return COMPILER_PLUGIN_ID
 	}
 	
 	override fun getPluginArtifact(): SubpluginArtifact {
-		return SubpluginArtifact(Const.GROUP, Const.ARTIFACT_PLUGIN, ReflectPlugin.VERSION)
+		return SubpluginArtifact(
+			ReflectPlugin.ARTIFACT_GROUP,
+			ReflectPlugin.ARTIFACT_NAME,
+			ReflectPlugin.VERSION
+		)
 	}
 	
 	override fun apply(
@@ -28,14 +36,14 @@ class ReflectSubplugin : KotlinGradleSubplugin<AbstractCompile> {
 		javaCompile: AbstractCompile?,
 		variantData: Any?,
 		androidProjectHandler: Any?,
-		kotlinCompilation: KotlinCompilation?
+		kotlinCompilation: KotlinCompilation<KotlinCommonOptions>?
 	): List<SubpluginOption> {
 		
-		if (!ReflectPlugin.isEnabled(project)) {
+		if (!ReflectPlugin.isJsApplicable(project)) {
 			return emptyList()
 		}
 		
-		val extension = project.extensions.findByType<ReflectExtension>()
+		val extension = project.extensions.findByType<JsReflectExtension>()
 			?: return emptyList()
 		
 		val options = mutableListOf<SubpluginOption>()
@@ -47,10 +55,10 @@ class ReflectSubplugin : KotlinGradleSubplugin<AbstractCompile> {
 		return options
 	}
 	
-	private val ReflectTarget.optionName: String
+	private val JsReflectTarget.optionName: String
 		get() = type.name.toLowerCase()
 	
-	private val ReflectTarget.optionValue: String
+	private val JsReflectTarget.optionValue: String
 		get() = listOf(name).asSequence().plus(units.map { it.name.toLowerCase() }).joinToString(":")
 	
 }
