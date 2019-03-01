@@ -235,7 +235,7 @@ class JsReflectCodeGenerator(
 				JsArrayLiteral(value.value.map { it.accept(this, data) })
 			
 			override fun visitKClassValue(value: KClassValue, data: TranslationContext) =
-				JsInvocation(data.getReferenceToIntrinsic(Namer.GET_KCLASS), getReferenceToJsClass(value.getType(data.currentModule), data))
+				JsInvocation(data.getReferenceToIntrinsic(Namer.GET_KCLASS), getReferenceToJsClass(value.getArgumentType(data.currentModule), data))
 		}
 	}
 }
