@@ -23,7 +23,7 @@ open class ReflectPlugin : Plugin<Project> {
 	override fun apply(project: Project) {
 		configureDefaultVersionsResolutionStrategy(project)
 		if (isJsApplicable(project)) {
-			project.extensions.create(JsReflectExtension::class, "reflectJs", JsReflectExtensionImpl::class)
+			project.extensions.create(JsReflectExtension::class, "ktReflectJs", JsReflectExtensionImpl::class)
 		}
 	}
 	
