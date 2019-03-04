@@ -11,7 +11,7 @@ plugins {
 
 
 allprojects {
-	group = "ru.capjack.kt"
+	group = "ru.capjack.tool"
 	repositories {
 		jcenter()
 	}
@@ -81,15 +81,15 @@ kotlin {
 			kotlinOptions.freeCompilerArgs += listOf(
 				"-Xplugin=${jar.archiveFile.get().asFile.absolutePath}",
 				
-				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubClassA",
-				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubClassB",
-				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubInterfaceA",
+				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubClassA",
+				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubClassB",
+				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubInterfaceA",
 				
-				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubReflectName*",
-				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubReflectA:ANNOTATIONS",
-				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubReflectB:SUPERTYPES",
-				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubReflectC:CONSTRUCTOR",
-				"-P", "plugin:ru.capjack.kt-reflect:class=ru.capjack.kt.reflect.StubReflectD:MEMBERS"
+				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubReflectName*",
+				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubReflectA:ANNOTATIONS",
+				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubReflectB:SUPERTYPES",
+				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubReflectC:CONSTRUCTOR",
+				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubReflectD:MEMBERS"
 			)
 		}
 	}

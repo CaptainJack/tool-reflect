@@ -13,7 +13,7 @@ dependencies {
 gradlePlugin {
 	plugins.create("KtReflect") {
 		id = "ru.capjack.kt-reflect"
-		implementationClass = "ru.capjack.kt.reflect.gradle.ReflectPlugin"
+		implementationClass = "ru.capjack.tool.kt.reflect.gradle.ReflectPlugin"
 		displayName = "kt-reflect"
 	}
 }
