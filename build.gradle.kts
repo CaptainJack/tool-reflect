@@ -5,8 +5,8 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation.Companion.TEST_COMPI
 plugins {
 	kotlin("multiplatform") version "1.3.20"
 	id("nebula.release") version "9.2.0"
-	id("ru.capjack.ktjs-test") version "0.10.0"
-	id("ru.capjack.capjack-bintray") version "0.16.0"
+	id("ru.capjack.ktjs-test") version "0.10.1"
+	id("ru.capjack.capjack-bintray") version "0.16.1"
 }
 
 
