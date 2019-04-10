@@ -3,10 +3,10 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation.Companion.MAIN_COMPI
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation.Companion.TEST_COMPILATION_NAME
 
 plugins {
-	kotlin("multiplatform") version "1.3.20"
-	id("nebula.release") version "9.2.0"
-	id("ru.capjack.ktjs-test") version "0.10.1"
-	id("ru.capjack.capjack-bintray") version "0.16.1"
+	kotlin("multiplatform") version "1.3.21"
+	id("nebula.release") version "10.0.1"
+	id("ru.capjack.bintray") version "0.17.0"
+	id("ru.capjack.kojste") version "0.11.0"
 }
 
 
@@ -18,7 +18,7 @@ allprojects {
 }
 
 capjackBintray {
-	publications(":", ":kt-reflect-gradle")
+	publications(":", ":tool-reflect-gradle")
 }
 
 kotlin {
@@ -74,22 +74,22 @@ kotlin {
 		}
 		
 		get(TEST_COMPILATION_NAME).compileKotlinTask.apply {
-			val plugin = ":kt-reflect-gradle"
+			val plugin = ":tool-reflect-gradle"
 			evaluationDependsOn(plugin)
 			val jar = project(plugin).tasks.getByName<Jar>("jar")
 			dependsOn(jar)
 			kotlinOptions.freeCompilerArgs += listOf(
 				"-Xplugin=${jar.archiveFile.get().asFile.absolutePath}",
 				
-				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubClassA",
-				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubClassB",
-				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubInterfaceA",
+				"-P", "plugin:ru.capjack.tool.reflect:class=ru.capjack.tool.reflect.StubClassA",
+				"-P", "plugin:ru.capjack.tool.reflect:class=ru.capjack.tool.reflect.StubClassB",
+				"-P", "plugin:ru.capjack.tool.reflect:class=ru.capjack.tool.reflect.StubInterfaceA",
 				
-				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubReflectName*",
-				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubReflectA:ANNOTATIONS",
-				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubReflectB:SUPERTYPES",
-				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubReflectC:CONSTRUCTOR",
-				"-P", "plugin:ru.capjack.kt-reflect-js:class=ru.capjack.tool.kt.reflect.StubReflectD:MEMBERS"
+				"-P", "plugin:ru.capjack.tool.reflect:class=ru.capjack.tool.reflect.StubReflectName*",
+				"-P", "plugin:ru.capjack.tool.reflect:class=ru.capjack.tool.reflect.StubReflectA:ANNOTATIONS",
+				"-P", "plugin:ru.capjack.tool.reflect:class=ru.capjack.tool.reflect.StubReflectB:SUPERTYPES",
+				"-P", "plugin:ru.capjack.tool.reflect:class=ru.capjack.tool.reflect.StubReflectC:CONSTRUCTOR",
+				"-P", "plugin:ru.capjack.tool.reflect:class=ru.capjack.tool.reflect.StubReflectD:MEMBERS"
 			)
 		}
 	}

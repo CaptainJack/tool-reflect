@@ -1,4 +1,4 @@
-rootProject.name = "kt-reflect"
+rootProject.name = "tool-reflect"
 
-include("kt-reflect-gradle")
-project(":kt-reflect-gradle").projectDir = file("gradle-plugin")
+include("tool-reflect-gradle")
+project(":tool-reflect-gradle").projectDir = file("gradle-plugin")
