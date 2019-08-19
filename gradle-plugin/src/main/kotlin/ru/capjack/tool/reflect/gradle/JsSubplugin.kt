@@ -2,8 +2,8 @@ package ru.capjack.tool.reflect.gradle
 
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.AbstractCompile
-import org.gradle.kotlin.dsl.findByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinCommonOptions
+import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinGradleSubplugin
 import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
@@ -15,7 +15,7 @@ class JsSubplugin : KotlinGradleSubplugin<AbstractCompile> {
 	}
 	
 	override fun isApplicable(project: Project, task: AbstractCompile): Boolean {
-		return ReflectPlugin.isJsApplicable(project)
+		return task is KotlinJsCompile
 	}
 	
 	override fun getCompilerPluginId(): String {
@@ -39,11 +39,11 @@ class JsSubplugin : KotlinGradleSubplugin<AbstractCompile> {
 		kotlinCompilation: KotlinCompilation<KotlinCommonOptions>?
 	): List<SubpluginOption> {
 		
-		if (!ReflectPlugin.isJsApplicable(project)) {
+		if (!isApplicable(project, kotlinCompile)) {
 			return emptyList()
 		}
 		
-		val extension = project.extensions.findByType<JsReflectExtension>()
+		val extension = project.extensions.findByType(JsReflectExtension::class.java)
 			?: return emptyList()
 		
 		val options = mutableListOf<SubpluginOption>()

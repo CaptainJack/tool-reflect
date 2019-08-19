@@ -1,14 +1,8 @@
-import org.jetbrains.kotlin.cli.common.arguments.K2JsArgumentConstants.MODULE_UMD
-import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation.Companion.MAIN_COMPILATION_NAME
-import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation.Companion.TEST_COMPILATION_NAME
-
 plugins {
-	kotlin("multiplatform") version "1.3.21"
-	id("nebula.release") version "10.0.1"
-	id("ru.capjack.bintray") version "0.17.0"
-	id("ru.capjack.kojste") version "0.11.0"
+	kotlin("multiplatform") version "1.3.41"
+	id("nebula.release") version "11.1.0"
+	id("ru.capjack.bintray") version "0.20.1"
 }
-
 
 allprojects {
 	group = "ru.capjack.tool"
@@ -17,66 +11,19 @@ allprojects {
 	}
 }
 
-capjackBintray {
-	publications(":", ":tool-reflect-gradle")
-}
-
 kotlin {
-	sourceSets {
-		commonMain {
-			dependencies {
-				implementation(kotlin("stdlib-common"))
-			}
-		}
-		commonTest {
-			dependencies {
-				implementation(kotlin("test-common"))
-				implementation(kotlin("test-annotations-common"))
-			}
-		}
+	jvm {
+		compilations.all { kotlinOptions.jvmTarget = "1.8" }
 	}
-	
-	
-	jvm().compilations {
-		all {
-			kotlinOptions.jvmTarget = "1.8"
+	js {
+		browser()
+		compilations["main"].kotlinOptions {
+			sourceMap = true
+			sourceMapEmbedSources = "always"
 		}
-		
-		get(MAIN_COMPILATION_NAME).defaultSourceSet {
-			dependencies {
-				implementation(kotlin("stdlib-jdk8"))
-				implementation(kotlin("reflect"))
-			}
-		}
-		
-		get(TEST_COMPILATION_NAME).defaultSourceSet {
-			dependencies {
-				implementation(kotlin("test-junit"))
-			}
-		}
-	}
-	
-	js().compilations {
-		all {
-			kotlinOptions.moduleKind = MODULE_UMD
-		}
-		
-		get(MAIN_COMPILATION_NAME).defaultSourceSet {
-			dependencies {
-				implementation(kotlin("stdlib-js"))
-			}
-		}
-		
-		get(TEST_COMPILATION_NAME).defaultSourceSet {
-			dependencies {
-				implementation(kotlin("test-js"))
-			}
-		}
-		
-		get(TEST_COMPILATION_NAME).compileKotlinTask.apply {
-			val plugin = ":tool-reflect-gradle"
-			evaluationDependsOn(plugin)
-			val jar = project(plugin).tasks.getByName<Jar>("jar")
+		compilations["test"].compileKotlinTask.apply {
+			evaluationDependsOn(":tool-reflect-gradle")
+			val jar = project(":tool-reflect-gradle").tasks.getByName<Jar>("jar")
 			dependsOn(jar)
 			kotlinOptions.freeCompilerArgs += listOf(
 				"-Xplugin=${jar.archiveFile.get().asFile.absolutePath}",
@@ -91,6 +38,31 @@ kotlin {
 				"-P", "plugin:ru.capjack.tool.reflect:class=ru.capjack.tool.reflect.StubReflectC:CONSTRUCTOR",
 				"-P", "plugin:ru.capjack.tool.reflect:class=ru.capjack.tool.reflect.StubReflectD:MEMBERS"
 			)
+		}
+	}
+	
+	sourceSets {
+		get("commonMain").dependencies {
+			implementation(kotlin("stdlib-common"))
+		}
+		get("commonTest").dependencies {
+			implementation(kotlin("test-common"))
+			implementation(kotlin("test-annotations-common"))
+		}
+		
+		get("jvmMain").dependencies {
+			implementation(kotlin("stdlib-jdk8"))
+			implementation(kotlin("reflect"))
+		}
+		get("jvmTest").dependencies {
+			implementation(kotlin("test-junit"))
+		}
+		
+		get("jsMain").dependencies {
+			implementation(kotlin("stdlib-js"))
+		}
+		get("jsTest").dependencies {
+			implementation(kotlin("test-js"))
 		}
 	}
 }

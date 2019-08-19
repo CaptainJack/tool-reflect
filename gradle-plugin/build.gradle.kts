@@ -1,13 +1,20 @@
 plugins {
-	`kotlin-dsl`
+	kotlin("jvm")
 	`java-gradle-plugin`
 	`maven-publish`
 	id("com.gradle.plugin-publish") version "0.10.1"
+	id("ru.capjack.bintray")
+}
+
+repositories {
+	gradlePluginPortal()
 }
 
 dependencies {
+	compileOnly(kotlin("stdlib-jdk8"))
 	compileOnly(kotlin("gradle-plugin"))
 	compileOnly(kotlin("compiler-embeddable"))
+	compileOnly("ru.capjack.gradle:gradle-depver:0.2.0")
 }
 
 gradlePlugin {
