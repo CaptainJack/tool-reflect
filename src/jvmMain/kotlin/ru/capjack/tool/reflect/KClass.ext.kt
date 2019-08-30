@@ -5,6 +5,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KVisibility
 import kotlin.reflect.full.declaredMembers
+import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.jvm.internal.impl.descriptors.annotations.Annotated
 import kotlin.reflect.jvm.internal.impl.name.FqName
@@ -32,3 +33,6 @@ actual fun KClass<*>.getSupertypesWithAnnotation(clazz: KClass<out Annotation>):
 		.map { it.kClass }
 		.toList()
 }
+
+@Suppress("NOTHING_TO_INLINE")
+actual inline fun KClass<*>.isSubclassOf(base: KClass<*>): Boolean = isSubclassOf(base)

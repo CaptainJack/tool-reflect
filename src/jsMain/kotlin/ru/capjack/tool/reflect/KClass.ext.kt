@@ -22,3 +22,8 @@ actual val KClass<*>.publicDeclaredMembers: Collection<KCallable<*>>
 actual fun KClass<*>.getSupertypesWithAnnotation(clazz: KClass<out Annotation>): List<KClass<*>> {
 	return ref.supertypes.asSequence().filter { it.hasAnnotation(clazz) }.map { it.kClass }.toList()
 }
+
+actual fun KClass<*>.isSubclassOf(base: KClass<*>): Boolean {
+	return if (this == base) true
+	else ref.supertypes.any { it.kClass.isSubclassOf(base) }
+}

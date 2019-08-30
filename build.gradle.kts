@@ -44,6 +44,7 @@ kotlin {
 	sourceSets {
 		get("commonMain").dependencies {
 			implementation(kotlin("stdlib-common"))
+			implementation(kotlin("reflect"))
 		}
 		get("commonTest").dependencies {
 			implementation(kotlin("test-common"))
@@ -52,7 +53,6 @@ kotlin {
 		
 		get("jvmMain").dependencies {
 			implementation(kotlin("stdlib-jdk8"))
-			implementation(kotlin("reflect"))
 		}
 		get("jvmTest").dependencies {
 			implementation(kotlin("test-junit"))

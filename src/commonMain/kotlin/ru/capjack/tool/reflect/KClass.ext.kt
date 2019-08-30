@@ -13,3 +13,5 @@ expect val KClass<*>.isInterface: Boolean
 expect val KClass<*>.publicDeclaredMembers: Collection<KCallable<*>>
 
 expect fun KClass<*>.getSupertypesWithAnnotation(clazz: KClass<out Annotation>): List<KClass<*>>
+
+expect fun KClass<*>.isSubclassOf(base: KClass<*>): Boolean
