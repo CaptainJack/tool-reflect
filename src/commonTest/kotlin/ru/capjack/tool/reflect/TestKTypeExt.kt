@@ -10,7 +10,7 @@ class TestKTypeExt {
 	fun valid_kClass_Int_from_method_parameter() {
 		val method = StubClassA::class.publicDeclaredMembers.first { it.name == "methodA1" }
 		val parameter = method.valueParameters.first()
-		val kClass = parameter.typeRef.kClass
+		val kClass = parameter.type.kClass
 		
 		assertEquals(Int::class, kClass)
 	}
