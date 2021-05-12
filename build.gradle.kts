@@ -16,7 +16,7 @@ kotlin {
 	
 	sourceSets {
 		get("commonMain").dependencies {
-			implementation(kotlin("reflect"))
+			api(kotlin("reflect"))
 		}
 		get("commonTest").dependencies {
 			implementation(kotlin("test"))
