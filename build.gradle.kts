@@ -1,6 +1,6 @@
 plugins {
-	kotlin("multiplatform") version "1.5.0"
-	id("ru.capjack.publisher") version "0.1.0"
+	kotlin("multiplatform") version "1.6.21"
+	id("ru.capjack.publisher") version "1.0.0"
 }
 
 group = "ru.capjack.tool"
